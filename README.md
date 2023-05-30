@@ -16,8 +16,8 @@ Project itself has 3 APIS:
  2. Retrieve statistics on toppings:
  `curl --location 'localhost:8080/api/v1/topping'`
  
- 3. My favorite topping:
- `curl --location 'localhost:8080/api/v1/favorite/topping'`
+ 3. List of toppings per customer:
+ `curl --location 'localhost:8080/api/v1/customer/{customerEmail}'`
 
 ####Here is a list of desirable features that I did not have time to implement.:
 - add custom error handling, e.g. via ControllerAdvice
