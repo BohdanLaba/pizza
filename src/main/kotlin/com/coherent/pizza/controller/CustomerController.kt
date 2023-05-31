@@ -17,7 +17,7 @@ class CustomerController(val service: CustomerService) {
     }
 
     @GetMapping("/{email}")
-    fun getCustomerToppings(@PathVariable("email") email: String): MutableList<String>? {
+    fun getCustomerToppings(@PathVariable("email") email: String): MutableSet<String>? {
         return service.getCustomerToppings(email)
     }
 

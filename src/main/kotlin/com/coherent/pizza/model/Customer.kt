@@ -2,19 +2,6 @@ package com.coherent.pizza.model
 
 import javax.persistence.*
 
-@NamedEntityGraph(
-        name = "customer-toppings-graph",
-        attributeNodes = [
-            NamedAttributeNode("email"),
-            NamedAttributeNode("toppings", subgraph = "toppings-subgraph")
-        ],
-        subgraphs = [
-            NamedSubgraph(name = "toppings-subgraph",
-                    attributeNodes = [
-                        NamedAttributeNode("toppingName")
-                    ])
-        ]
-)
 @Entity
 @Table(name = "CUSTOMERS")
 class Customer(
@@ -25,7 +12,8 @@ class Customer(
         @Column(name = "email", nullable = false, unique = true)
         private var email: String,
 
-        @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+        @ManyToMany(cascade = [CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH],
+                fetch = FetchType.LAZY)
         @JoinTable(name = "customer_topping",
                 joinColumns = [JoinColumn(name = "customer_id")],
                 inverseJoinColumns = [JoinColumn(name = "topping_id")])

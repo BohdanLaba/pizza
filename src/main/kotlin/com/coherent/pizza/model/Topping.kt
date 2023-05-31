@@ -13,12 +13,12 @@ class Topping(
         private var toppingName: String,
 
         @ManyToMany(mappedBy = "toppings")
-        private var customers: MutableList<Customer>?
+        private var customers: MutableSet<Customer>
 
 
 ) {
     constructor(toppingName: String) :
-            this(0, toppingName, null) {
+            this(0, toppingName, mutableSetOf()) {
     }
 
     fun getToppingName(): String {

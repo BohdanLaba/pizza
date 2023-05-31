@@ -10,12 +10,14 @@ import com.ninjasquad.springmockk.MockkBean
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
+import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.util.*
 
@@ -41,5 +43,21 @@ class CustomerControllerTest(@Autowired val mockMvc: MockMvc) {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(dto)))
                 .andExpect(status().isNoContent())
+        verify { customerService.submit(dto) }
+    }
+
+    @Test
+    fun getCustomerToppingsTest() {
+        //given
+        val mail = "user@mail.com"
+        val topping = "Quattro formaggi"
+        every { customerService.getCustomerToppings(mail) } returns mutableSetOf(topping)
+        //when
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/customer/user@mail.com")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0]").value(topping))
+
+        verify { customerService.getCustomerToppings(mail) }
     }
 }

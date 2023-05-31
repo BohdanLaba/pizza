@@ -5,6 +5,7 @@ see task description in task.txt
 As Db I've chosen PosgresSQL, but you can change to any other DB, just update connection details 
 & hibernate dialect in application.properties. Also, **generate-ddl** is enabled,
 so schema should be created upon launch.
+
 Project itself has 3 APIS:
 1. Add/update user data, e.g.:
 `curl --location --request PUT 'localhost:8080/api/v1/customer/survey' \

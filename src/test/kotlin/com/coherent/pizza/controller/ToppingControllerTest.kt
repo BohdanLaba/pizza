@@ -5,6 +5,7 @@ import com.coherent.pizza.service.CustomerService
 import com.coherent.pizza.service.ToppingService
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
+import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -33,5 +34,6 @@ class ToppingControllerTest(@Autowired val mockMvc: MockMvc) {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$[0].count").value(4))
+        verify { toppingService.aggregateAllToppings() }
     }
 }

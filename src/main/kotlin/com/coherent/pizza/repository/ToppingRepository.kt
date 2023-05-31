@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ToppingRepository : CrudRepository<Topping, Long> {
 
-    @Query("SELECT new com.coherent.pizza.dto.AggregationResponseDto(t.toppingName, COUNT(t.id)) " +
-            "FROM Topping AS t GROUP BY t.toppingName ORDER BY t.toppingName ASC ")
+    fun findOneByToppingName(name: String): Topping?
+
+    @Query("SELECT new com.coherent.pizza.dto.AggregationResponseDto(t.toppingName, COUNT(c)) " +
+            "FROM Topping AS t JOIN t.customers c GROUP BY t.toppingName  ORDER BY t.toppingName ASC ")
     fun aggregateToppings(): List<AggregationResponseDto>
 }
